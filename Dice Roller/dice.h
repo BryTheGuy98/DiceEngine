@@ -35,7 +35,35 @@ protected:
 	Dice(int s) : sides(s) {}
 };
 
-class cDice : public Dice {
+class rDice : public Dice {			// True Random
+public:
+	rDice(int s, bool c) : Dice(s) {
+		gCrits = c;
+	}
+private:
+	bool gCrits;
+	int numRolls = 0;
+	int getRoll() override {
+		int roll;
+		if (gCrits && numRolls == sides-1) {
+			roll = sides;
+		}
+		else {
+			roll = getRandom(1, sides);
+		}
+		if (gCrits) {
+			if (roll == sides) {
+				numRolls = 0;
+			}
+			else {
+				numRolls++;
+			}
+		}
+		return roll;
+	}
+};
+
+class cDice : public Dice {			// Competitive
 public:
 	cDice(int s) : Dice(s) {
 		populate();
