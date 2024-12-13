@@ -40,6 +40,9 @@ public:
 	rDice(int s, bool c) : Dice(s) {
 		gCrits = c;
 	}
+	rDice(int s) : Dice(s) {
+		gCrits = false;
+	}
 private:
 	bool gCrits;
 	int numRolls = 0;
