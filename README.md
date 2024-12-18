@@ -7,6 +7,10 @@ Currently the following dice types are available:
 
 Every dice roll is truly random.
 
+## Karmatic
+
+Getting poor rolls increases the likelihood of getting good rolls
+
 ## Competitive
 
 Every possible result must appear at least once.

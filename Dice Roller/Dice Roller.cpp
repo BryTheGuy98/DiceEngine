@@ -71,10 +71,53 @@ void tRandom() {
 	 }
 }
 
+ void karmatic() {
+	 std::cout << "Enable Guarenteed Crits? [Y/N]" << std::endl;
+	 std::cout << std::endl << "Input: ";
+	 char input = 'a';
+	 std::cin >> input;
+	 std::cout << std::endl;
+	 bool gCrit;
+	 switch (input) {
+	 case 'y': gCrit = true; break;
+	 case 'Y': gCrit = true; break;
+	 case 'n': gCrit = false; break;
+	 case 'N': gCrit = false; break;
+	 }
+	 kDice d4(4);
+	 kDice d6(6);
+	 kDice d8(8);
+	 kDice d10(10);
+	 kDice d12(12);
+	 kDice d20(20, gCrit);
+	 kDice d100(100);
+
+	 bool quit = false;
+	 int numInput = 1;
+	 std::cout << "Select the dice number of the dice you'd like to roll (6, 20, 100, etc). Input 0 to exit." << std::endl << std::endl;
+	 while (!quit) {
+		 std::cout << "Input: ";
+		 std::cin >> numInput;
+		 std::cout << std::endl;
+		 switch (numInput) {
+		 case 0: quit = true; break;
+		 case 4: std::cout << "Roll: " << d4.result() << std::endl; break;
+		 case 6: std::cout << "Roll: " << d6.result() << std::endl; break;
+		 case 8: std::cout << "Roll: " << d8.result() << std::endl; break;
+		 case 10: std::cout << "Roll: " << d10.result() << std::endl; break;
+		 case 12: std::cout << "Roll: " << d12.result() << std::endl; break;
+		 case 20: std::cout << "Roll: " << d20.result() << std::endl; break;
+		 case 100: std::cout << "Roll: " << d100.result() << std::endl; break;
+		 }
+	 }
+ }
+
  void demo() {
-	rDice rd20(20, false);
+	rDice rd20(20);
 	rDice rd20c(20, true);
 	cDice cd20(20);
+	kDice kd20(20);
+	kDice kd20c(20, true);
 
 	std::cout << "True Random Rolls without Guarenteed Crits:" << std::endl;
 	for (int i = 0; i < 20; ++i) {
@@ -88,6 +131,18 @@ void tRandom() {
 	}
 	std::cout << std::endl;
 
+	std::cout << "Karmatic Rolls without Guarenteed Crits:" << std::endl;
+	for (int i = 0; i < 20; ++i) {
+		std::cout << kd20.result() << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "Karmatic Rolls with Guarenteed Crits:" << std::endl;
+	for (int i = 0; i < 20; ++i) {
+		std::cout << kd20c.result() << " ";
+	}
+	std::cout << std::endl;
+
 	std::cout << "Competitive Rolls:" << std::endl;
 	for (int i = 0; i < 20; ++i) {
 		std::cout << cd20.result() << " ";
@@ -98,6 +153,7 @@ void tRandom() {
 	 std::cout << "Select a dice type." << std::endl;
 	 std::cout << "Available types:" << std::endl << std::endl;
 	 std::cout << "R: True Random - Every roll is fully randomized." << std::endl;
+	 std::cout << "K: Karmatic - bad rolls increase the likelihood of getting good rolls." << std::endl;
 	 std::cout << "C: Competitive - Every possible value must appear once before repeat values may appear." << std::endl;
 	 std::cout << "D: run a demo of each dice type." << std::endl;
 	 std::cout << "Q: quit program." << std::endl;
@@ -111,6 +167,8 @@ void tRandom() {
 		switch (input) {
 		case 'd': demo(); break;
 		case 'D': demo(); break;
+		case 'k': karmatic(); quit = true; break;
+		case 'K': karmatic(); quit = true; break;
 		case 'r': tRandom(); quit = true; break;
 		case 'R': tRandom(); quit = true; break;
 		case 'c': competitive(); quit = true; break;

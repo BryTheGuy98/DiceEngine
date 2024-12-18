@@ -98,3 +98,42 @@ private:
 		return i;
 	}
 };
+
+class kDice : public Dice {		// Karmatic
+public:
+	kDice(int s) : Dice(s) {
+		bRolls = 0;
+		gCrits = false;
+	}
+	kDice(int s, bool c) : Dice(s) {
+		bRolls = 0;
+		gCrits = c;
+	}
+private:
+	bool gCrits;
+	int numRolls = 0;
+	int bRolls;
+	const int ranMax = 100000;
+	int getRoll() override {
+		int roll = 0;
+		if (gCrits && numRolls == sides - 1) {
+			roll = sides;
+		}
+		else {
+			int ran = getRandom(1, ranMax);
+			int div = ranMax / sides;
+			for (int i = 1; i < sides; ++i) {
+				if (ran < (div * i) - ((ranMax / 20) * bRolls)) {
+					roll = i;
+					break;
+				}
+			}
+			if (roll == 0) { roll = sides; }
+		}
+		if (roll <= sides / 2) { bRolls++; }
+		else { bRolls = 0; }
+		if (roll == sides) { numRolls = 0; }
+		else { numRolls++; }
+		return roll;
+	}
+};
