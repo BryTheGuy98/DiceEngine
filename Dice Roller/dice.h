@@ -3,7 +3,7 @@
 
 class Dice {
 public:
-	int sides;
+	const int sides;
 	virtual int getRoll() = 0;
 	int result() {
 		return getRoll();
@@ -37,14 +37,10 @@ protected:
 
 class rDice : public Dice {			// True Random
 public:
-	rDice(int s, bool c) : Dice(s) {
-		gCrits = c;
-	}
-	rDice(int s) : Dice(s) {
-		gCrits = false;
-	}
+	rDice(int s, bool c) : Dice(s), gCrits(c) {}
+	rDice(int s) : Dice(s), gCrits(false)  {}
 private:
-	bool gCrits;
+	const bool gCrits;
 	int numRolls = 0;
 	int getRoll() override {
 		int roll;
@@ -101,18 +97,12 @@ private:
 
 class kDice : public Dice {		// Karmatic
 public:
-	kDice(int s) : Dice(s) {
-		bRolls = 0;
-		gCrits = false;
-	}
-	kDice(int s, bool c) : Dice(s) {
-		bRolls = 0;
-		gCrits = c;
-	}
+	kDice(int s) : Dice(s), gCrits(false) {}
+	kDice(int s, bool c) : Dice(s), gCrits(c) {}
 private:
-	bool gCrits;
+	const bool gCrits;
 	int numRolls = 0;
-	int bRolls;
+	int bRolls = 0;
 	const int ranMax = 100000;
 	int getRoll() override {
 		int roll = 0;
@@ -120,10 +110,9 @@ private:
 			roll = sides;
 		}
 		else {
-			int ran = getRandom(1, ranMax);
-			int div = ranMax / sides;
+			const int ran = getRandom(1, ranMax);
 			for (int i = 1; i < sides; ++i) {
-				if (ran < (div * i) - ((ranMax / 20) * bRolls)) {
+				if (ran < ((ranMax / sides) * i) - ((ranMax / sides) * bRolls)) {
 					roll = i;
 					break;
 				}
