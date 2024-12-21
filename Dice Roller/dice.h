@@ -103,26 +103,28 @@ private:
 	const bool gCrits;
 	int numRolls = 0;
 	int bRolls = 0;
-	const int ranMax = 100000;
 	int getRoll() override {
 		int roll = 0;
 		if (gCrits && numRolls == sides - 1) {
 			roll = sides;
 		}
 		else {
-			const int ran = getRandom(1, ranMax);
-			for (int i = 1; i < sides; ++i) {
-				if (ran < ((ranMax / sides) * i) - ((ranMax / sides) * bRolls)) {
-					roll = i;
-					break;
+			roll = getRandom(1, sides); 
+			if (roll <= sides / 2 && bRolls > 0) {
+				int c = bRolls;
+				while (c > 0) {
+					roll = getRandom(1, sides);
+					if (roll > sides / 2) { break; }
+					else { c--; }
 				}
 			}
-			if (roll == 0) { roll = sides; }
 		}
 		if (roll <= sides / 2) { bRolls++; }
 		else { bRolls = 0; }
-		if (roll == sides) { numRolls = 0; }
-		else { numRolls++; }
+		if (gCrits) {
+			if (roll == sides) { numRolls = 0; }
+			else { numRolls++; }
+		}
 		return roll;
 	}
 };
