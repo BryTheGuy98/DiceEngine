@@ -23,5 +23,11 @@
     <ClInclude Include="dice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

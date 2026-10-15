@@ -1,4 +1,4 @@
-#include <random>
+#include "Random.h"
 #include <stack>
 
 class Dice {
@@ -26,19 +26,18 @@ public:
 		return sum;
 	}
 protected:
-	std::random_device rd;
-	std::mt19937 gen = std::mt19937(rd());
-	int getRandom(int min, int max) {
-		std::uniform_int_distribution<> distrib(min, max);
-		return distrib(gen);
+	Random r;
+	Dice(int s) : sides(s) {
+		r = Random();
 	}
-	Dice(int s) : sides(s) {}
 };
 
 class rDice : public Dice {			// True Random
 public:
-	rDice(int s, bool c) : Dice(s), gCrits(c) {}
-	rDice(int s) : Dice(s), gCrits(false)  {}
+	rDice(int s, bool c) : Dice(s), gCrits(c) {
+	}
+	rDice(int s) : Dice(s), gCrits(false)  {
+	}
 private:
 	const bool gCrits;
 	int numRolls = 0;
@@ -48,7 +47,7 @@ private:
 			roll = sides;
 		}
 		else {
-			roll = getRandom(1, sides);
+			roll = r.rand(1, sides);
 		}
 		if (gCrits) {
 			if (roll == sides) {
@@ -82,7 +81,7 @@ private:
 	}
 	void shuffle(int nums[]) {
 		for (int i = 0; i < sides; ++i) {
-			std::swap(nums[i], nums[getRandom(0, sides-1)]);
+			std::swap(nums[i], nums[r.rand(0, sides-1)]);
 		}
 	}
 	int getRoll() override {
@@ -109,13 +108,15 @@ private:
 			roll = sides;
 		}
 		else {
-			roll = getRandom(1, sides); 
-			if (roll <= sides / 2 && bRolls > 0) {
-				int c = bRolls;
-				while (c > 0) {
-					roll = getRandom(1, sides);
-					if (roll > sides / 2) { break; }
-					else { c--; }
+			roll = r.rand(1, sides); 
+			if (bRolls > 0 && roll <= sides / 2) {
+				int newRoll = 0;
+				for (int c = bRolls; c > 0; --c) {
+					int newRoll = r.rand(1, sides);
+					if (newRoll > roll) {
+						roll = newRoll;
+						if (roll == sides) { break; }
+					}
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "dice.h"
+#include "stats.h"
 
 void tRandom() {
 	std::cout << "Enable Guarenteed Crits? [Y/N]" << std::endl;
@@ -149,6 +150,27 @@ void tRandom() {
 	}
 }
 
+ void stats() {
+	 int testSize = 10000;
+	 StatClass tStats, cStats, kStats;
+	 rDice rd20(20);
+	 cDice cd20(20);
+	 kDice kd20(20);
+
+	 for (int i = 0; i < testSize; ++i) {
+		 tStats.addStat(rd20.result());
+		 cStats.addStat(cd20.result());
+		 kStats.addStat(kd20.result());
+	 }
+
+	 std::cout << "True Random Average: " << std::endl;
+	 std::cout << tStats.getAverage() << std::endl;
+	 std::cout << "Competitive Average: " << std::endl;
+	 std::cout << cStats.getAverage() << std::endl;
+	 std::cout << "Karmatic Average: " << std::endl;
+	 std::cout << kStats.getAverage() << std::endl;
+ }
+
  int main() {
 	 std::cout << "Select a dice type." << std::endl;
 	 std::cout << "Available types:" << std::endl << std::endl;
@@ -156,6 +178,7 @@ void tRandom() {
 	 std::cout << "K: Karmatic - bad rolls increase the likelihood of getting good rolls." << std::endl;
 	 std::cout << "C: Competitive - Every possible value must appear once before repeat values may appear." << std::endl;
 	 std::cout << "D: run a demo of each dice type." << std::endl;
+	 std::cout << "S: run a statistics demo of each dice type." << std::endl;
 	 std::cout << "Q: quit program." << std::endl;
 
 	 char input = 'a';
@@ -165,16 +188,19 @@ void tRandom() {
 		std::cin >> input;
 		std::cout << std::endl;
 		switch (input) {
-		case 'd': demo(); break;
-		case 'D': demo(); break;
-		case 'k': karmatic(); quit = true; break;
-		case 'K': karmatic(); quit = true; break;
-		case 'r': tRandom(); quit = true; break;
-		case 'R': tRandom(); quit = true; break;
-		case 'c': competitive(); quit = true; break;
-		case 'C': competitive(); quit = true; break;
-		case 'q': quit = true;  break;
-		case 'Q': quit = true; break;
+			case 'd': demo(); break;
+			case 'D': demo(); break;
+			case 'k': karmatic(); quit = true; break;
+			case 'K': karmatic(); quit = true; break;
+			case 'r': tRandom(); quit = true; break;
+			case 'R': tRandom(); quit = true; break;
+			case 'c': competitive(); quit = true; break;
+			case 'C': competitive(); quit = true; break;
+			case 'q': quit = true;  break;
+			case 'Q': quit = true; break;
+			case 'S': stats(); break;
+			case 's': stats(); break;
 		}
- }
+	 }
+	 return 0;
  }
