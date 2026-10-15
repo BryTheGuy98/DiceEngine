@@ -164,11 +164,17 @@ void tRandom() {
 	 }
 
 	 std::cout << "True Random Average: " << std::endl;
-	 std::cout << tStats.getAverage() << std::endl;
+	 std::cout << tStats.getAvg() << std::endl;
+	 std::cout << "True Random Standard Deviation: " << std::endl;
+	 std::cout << tStats.getStDv() << std::endl;
 	 std::cout << "Competitive Average: " << std::endl;
-	 std::cout << cStats.getAverage() << std::endl;
+	 std::cout << cStats.getAvg() << std::endl;
+	 std::cout << "Competititve Standard Deviation: " << std::endl;
+	 std::cout << cStats.getStDv() << std::endl;
 	 std::cout << "Karmatic Average: " << std::endl;
-	 std::cout << kStats.getAverage() << std::endl;
+	 std::cout << kStats.getAvg() << std::endl;
+	 std::cout << "Karmatic Standard Deviation: " << std::endl;
+	 std::cout << kStats.getStDv() << std::endl;
  }
 
  int main() {

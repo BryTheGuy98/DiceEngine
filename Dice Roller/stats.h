@@ -11,10 +11,27 @@ public:
 		init();
 		dataSize = 0;
 	}
-	float getAverage() {
+	float getAvg() {
+		if (dataSize == 0) { return 0.0f; }
 		float sum = (float)getSum();
-		return sum / (float)dataSize;
+		return sum / dataSize;
 	}
+	float getVar() {
+		if (dataSize == 0) { return 0.0f; }
+		float avg = getAvg();
+		float squaredDiffSum = 0.0f;
+
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < counter[i]; ++j) {
+				float diff = (i + 1) - avg;
+				squaredDiffSum += diff * diff;
+			}
+		}
+		return squaredDiffSum / dataSize;
+
+	}
+	float getStDv() { return std::sqrt(getVar()); }
+
 private:
 	void init() {
 		for (int i = 0; i < 20; i++) {
